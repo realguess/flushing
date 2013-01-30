@@ -6,11 +6,8 @@
 LAST=$(date '+%Y%m%d')
 
 while [ 1 ]; do
-  # Set date
+  # Set current date
   DATE=`date '+%Y%m%d'`
-
-  # Ping google.com
-  ping -i 9 -q -c 100 74.125.226.229 | awk '/^[0-9]/ { print time,$4 }' "time=$(date '+%s %Y-%m-%d %H:%M')" >> data/${DATE}.csv
 
   # Previous date
   if [ ${DATE} != ${LAST} ]; then
@@ -18,6 +15,9 @@ while [ 1 ]; do
     git add plot-last.png
     LAST=${DATE}
   fi
+
+  # Ping google.com
+  ping -i 9 -q -c 100 74.125.226.229 | awk '/^[0-9]/ { print time,$4 }' "time=$(date '+%s %Y-%m-%d %H:%M')" >> data/${DATE}.csv
 
   # Plot the latest
   cp data/${DATE}.csv data/latest.csv
